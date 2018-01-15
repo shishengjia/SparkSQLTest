@@ -1,6 +1,7 @@
 package com.ssj.log
 
-import org.apache.spark.sql.SparkSession
+import com.ssj.log.utils.ConvertUtil
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 
 /**
@@ -17,9 +18,12 @@ object SparkStatCleanJob {
 
         val accessDF = spark.createDataFrame(accessRDD.map(x => ConvertUtil.parseLog(x)), ConvertUtil.struct)
 
-        accessDF.printSchema()
+//        accessDF.printSchema()
+//
+//        accessDF.show(false)
 
-        accessDF.show(false)
+        accessDF.coalesce(1).write.format("parquet").mode(SaveMode.Overwrite).
+          partitionBy("day").save("/Users/shishengjia/data/clean")
 
     }
 }

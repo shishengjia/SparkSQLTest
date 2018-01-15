@@ -1,5 +1,6 @@
-package com.ssj.log
+package com.ssj.log.utils
 
+import com.ssj.log.utils.IPUtil
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{LongType, StringType, StructField, StructType}
 
@@ -39,7 +40,7 @@ object ConvertUtil {
                 cmsID = tmp(1).toLong
             }
 
-            val city = ""
+            val city = IPUtil.getCity(ip)
             val time = splits(0)
             val day = time.substring(0, 10).replaceAll("-", "")
 
